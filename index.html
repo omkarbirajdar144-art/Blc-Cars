@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WELCOME TO BLC The black line car| Premium car show</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+body {
+    background: #f4efe5;
+    color: #26221e;
+}
+
+/* NAVBAR */
+nav {
+    height: 70px;
+    background: #faf7f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 7%;
+    border-bottom: 1px solid #cbbda6;
+    box-shadow: 0 2px 12px rgba(47, 38, 28, .08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    color: #671f26;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #40362d;
+    margin-left: 30px;
+    font-weight: 600;
+}
+
+nav a:hover {
+    color: #8b2932;
+}
+
+.car-card {
+    cursor: pointer;
+}
+
+.car-card:focus-visible {
+    outline: 3px solid #8b2932;
+    outline-offset: 4px;
+}
+
+/* HERO */
+.hero {
+    min-height: 650px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 7%;
+    background: linear-gradient(135deg, #faf7f0, #e7ddca);
+    overflow: hidden;
+}
+
+.hero-text {
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 18px;
+    letter-spacing: 5px;
+    color: #8b2932;
+    font-weight: bold;
+}
+
+h1 {
+    color: #2e2924;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 65px;
+    line-height: 1;
+    margin: 20px 0;
+}
+
+h1 span {
+    color: #8b2932;
+}
+
+.hero-text p {
+    color: #62564b;
+    font-size: 18px;
+    line-height: 1.7;
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+.btn {
+    margin-top: 30px;
+    padding: 14px 30px;
+    border: none;
+    border: 1px solid #671f26;
+    border-radius: 2px;
+    background: #671f26;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.btn:hover {
+    background: #3f151a;
+    transform: translateY(-3px);
+}
+
+/* DETAILS */
+.details {
+    max-width: 1000px;
+    margin: -50px auto 60px;
+    position: relative;
+    background: #faf7f0;
+    border: 1px solid #cbbda6;
+    border-radius: 2px;
+    padding: 25px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    box-shadow: 0 10px 30px rgba(70, 55, 38, .12);
+}
+
+.detail {
+    text-align: center;
+    border-right: 1px solid #ddd;
+}
+
+.detail:last-child {
+    border: none;
+}
+
+.detail h3 {
+    color: #8b2932;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.detail p {
+    font-size: 19px;
+    font-weight: bold;
+}
+
+/* CAR SHOW */
+.show {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px 20px 80px;
+}
+
+.section-title {
+    color: #2e2924;
+    font-family: Georgia, "Times New Roman", serif;
+    text-align: center;
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: #62564b;
+    margin-bottom: 40px;
+}
+
+/* EIGHT CAR CARDS */
+.car-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.car-card {
+    background: #faf7f0;
+    border: 1px solid #cbbda6;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(70, 55, 38, .1);
+    transition: .4s;
+    position: relative;
+    cursor: pointer;
+}
+
+.car-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(70, 55, 38, .2);
+}
+
+.car-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    filter: sepia(.12) contrast(.96);
+}
+
+.car-info {
+    padding: 20px;
+}
+
+.car-info h2 {
+    color: #671f26;
+    font-family: Georgia, "Times New Roman", serif;
+    margin-bottom: 8px;
+}
+
+.car-info p {
+    color: #62564b;
+    line-height: 1.6;
+}
+
+.car-specs {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #d9ccb8;
+}
+
+.car-specs span {
+    font-size: 13px;
+    color: #51453a;
+}
+
+/* FOOTER */
+footer {
+    background: #2e2924;
+    color: #f7f0e5;
+    text-align: center;
+    padding: 30px;
+}
+
+/* MOBILE */
+@media(max-width:900px) {
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-text {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 48px;
+    }
+
+    .details {
+        margin: 20px;
+        grid-template-columns: repeat(2,1fr);
+        gap: 20px;
+    }
+
+    .detail {
+        border: none;
+    }
+
+    .car-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    nav a {
+        margin-left: 10px;
+    }
+}
+/* MORE EXPERIENCE */
+.lol {
+    text-align: center;
+    padding: 80px 20px;
+    background: #e7ddca;
+}
+
+.lol h2 {
+    color: #2e2924;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.lol p {
+    color: #62564b;
+    font-size: 17px;
+    margin-bottom: 25px;
+}
+
+.lol-btn {
+    padding: 15px 35px;
+    border: none;
+    border: 1px solid #671f26;
+    border-radius: 2px;
+    background: #671f26;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,.15);
+    transition: .3s;
+}
+
+.lol-btn:hover {
+    background: #3f151a;
+    transform: translateY(-3px);
+}
+
+@media(max-width:560px) {
+    .car-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:768px) {
+    nav {
+        height: auto;
+        min-height: 70px;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 14px 6%;
+    }
+
+    nav a {
+        display: inline-block;
+        margin-left: 14px;
+        padding: 8px 0;
+        font-size: 14px;
+    }
+
+    .hero {
+        min-height: 500px;
+        padding: 60px 6%;
+    }
+
+    .show {
+        padding: 35px 16px 60px;
+    }
+
+    .car-card img {
+        height: 210px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+    <div class="logo">BLC</div>
+
+    <div>
+        <a href="#home">Home</a>
+        <a href="#cars">All Cars</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero" id="home">
+
+    <div class="hero-text">
+
+        <div class="subtitle">BLC CAR </div>
+
+        <h1>
+            WELCOME<br>
+            TO <span>BLC</span>
+        </h1>
+
+        <p>
+             Premium Pre-Owned Cars
+             Quality Checked | Verified Deals
+              Loan Facility Available
+              Only Best car seller....
+        </p>
+
+        <button class="btn" onclick="scrollToCars()">
+            EXPLORE CARS
+        </button>
+    </div> 
+</section>
+<!-- CAR SHOW -->
+<section class="show" id="cars">
+
+    <h2 class="section-title">BLC CAR COLLECTION</h2>
+
+    <p class="section-subtitle">
+        Discover twelve incredible machines
+    </p>
+
+
+    <div class="car-grid">
+
+        <!-- CAR 1 -->
+        <div class="car-card">
+
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85">
+
+            <div class="car-info">
+
+                <h2>Porsche 911</h2>
+
+                <p>
+                    A legendary sports car combining
+                    performance and luxury.
+                </p>
+
+                <div class="car-specs">
+                    <span>⚡ 443 HP</span>
+                    <span>🏁 293 KM/H</span>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- CAR 2 -->
+        <div class="car-card">
+
+            <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=900&q=85">
+
+            <div class="car-info">
+
+                <h2>BMW M4</h2>
+
+                <p>
+                    German performance with aggressive
+                    styling and powerful handling.
+                </p>
+
+                <div class="car-specs">
+                    <span>⚡ 503 HP</span>
+                    <span>🏁 250 KM/H</span>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- CAR 3 -->
+        <div class="car-card">
+
+            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=900&q=85">
+
+            <div class="car-info">
+
+                <h2>Chevrolet Corvette</h2>
+
+                <p>
+                    American performance machine built
+                    for speed and excitement.
+                </p>
+
+                <div class="car-specs">
+                    <span>⚡ 495 HP</span>
+                    <span>🏁 312 KM/H</span>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- CAR 4 -->
+        <div class="car-card">
+
+            <img src="https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=900&q=85">
+
+            <div class="car-info">
+
+                <h2>Lamborghini</h2>
+
+                <p>
+                    Italian supercar design with extreme
+                    performance and luxury.
+                </p>
+
+                <div class="car-specs">
+                    <span>⚡ 631 HP</span>
+                    <span>🏁 325 KM/H</span>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- CAR 5 -->
+        <div class="car-card">
+
+            <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=85">
+
+            <div class="car-info">
+
+                <h2>McLaren</h2>
+
+                <p>
+                    Lightweight engineering and futuristic
+                    supercar performance.
+                </p>
+
+                <div class="car-specs">
+                    <span>⚡ 710 HP</span>
+                    <span>🏁 341 KM/H</span>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- CAR 6 -->
+        <div class="car-card">
+
+            <img src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=900&q=85">
+
+            <div class="car-info">
+
+                <h2>Nissan GT-R</h2>
+
+                <p>
+                    Japanese performance icon known for
+                    incredible acceleration.
+                </p>
+
+                <div class="car-specs">
+                    <span>⚡ 565 HP</span>
+                    <span>🏁 315 KM/H</span>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- CAR 7 -->
+        <div class="car-card">
+
+            <img src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=900&q=85" alt="Audi R8">
+
+            <div class="car-info">
+
+                <h2>Audi R8</h2>
+
+                <p>
+                    A naturally aspirated V10 supercar with
+                    everyday comfort and sharp handling.
+                </p>
+
+                <div class="car-specs">
+                    <span>Power: 602 HP</span>
+                    <span>Top speed: 331 KM/H</span>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- CAR 8 -->
+        <div class="car-card">
+
+            <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=900&q=85" alt="Mercedes-AMG GT">
+
+            <div class="car-info">
+
+                <h2>Mercedes-AMG GT</h2>
+
+                <p>
+                    A grand touring coupe that blends muscular
+                    performance with refined luxury.
+                </p>
+
+                <div class="car-specs">
+                    <span>Power: 523 HP</span>
+                    <span>Top speed: 312 KM/H</span>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- CAR 9 -->
+        <div class="car-card">
+            <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=900&q=85" alt="Ford Mustang">
+            <div class="car-info">
+                <h2>Ford Mustang GT</h2>
+                <p>A modern muscle car with bold style and a powerful V8 engine.</p>
+                <div class="car-specs">
+                    <span>Power: 450 HP</span>
+                    <span>Top speed: 250 KM/H</span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- CAR 10 -->
+        <div class="car-card">
+            <img src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=900&q=85" alt="Range Rover">
+            <div class="car-info">
+                <h2>Range Rover Sport</h2>
+                <p>Premium SUV comfort, commanding presence, and confident all-road ability.</p>
+                <div class="car-specs">
+                    <span>Power: 395 HP</span>
+                    <span>Top speed: 242 KM/H</span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- CAR 11 -->
+        <div class="car-card">
+            <img src="https://images.unsplash.com/photo-1567818735868-e71b99932e29?auto=format&fit=crop&w=900&q=85" alt="Jaguar F-Type">
+            <div class="car-info">
+                <h2>Jaguar F-Type</h2>
+                <p>A timeless British sports coupe with an unmistakable engine note.</p>
+                <div class="car-specs">
+                    <span>Power: 444 HP</span>
+                    <span>Top speed: 285 KM/H</span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- CAR 12 -->
+        <div class="car-card">
+            <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=900&q=85" alt="Toyota Supra">
+            <div class="car-info">
+                <h2>Toyota GR Supra</h2>
+                <p>A compact sports car designed for responsive handling and everyday fun.</p>
+                <div class="car-specs">
+                    <span>Power: 382 HP</span>
+                    <span>Top speed: 250 KM/H</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer id="about">
+    <h2>Thank For Visiting</h2>
+    <p>The Black Line Car🏎️</p>
+</footer>
+
+<section class="lol" id="more">
+    <div class="lol-detail">
+
+    <h2>MORE EXPERIENCE</h2>
+
+    <p>
+        Want to know more about our cars?
+        Contact BLC directly on WhatsApp.
+    </p>
+
+    <button class="lol-btn" onclick="openWhatsApp()">
+        Contact us...
+    </button>
+
+</div>
+</section>
+
+
+<script src="cars.js"></script>
+<script>
+
+function scrollToCars() {
+    document.getElementById("cars").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+function openWhatsApp() {
+
+    const phone = "918262090231";
+     const message=" ";
+    const whatsappURL =
+        "https://wa.me/" + phone +
+        "?text=" + encodeURIComponent(message);
+
+    window.open(whatsappURL, "_blank");
+}
+
+document.querySelectorAll(".car-card").forEach((card, index) => {
+    const car = cars[index];
+    if (!car) return;
+
+    card.tabIndex = 0;
+    card.setAttribute("role", "link");
+    card.setAttribute("aria-label", "View details for " + car.name);
+    const openDetails = () => {
+        window.location.href = "car-details.html?id=" + car.id;
+    };
+
+    card.addEventListener("click", openDetails);
+    card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openDetails();
+        }
+    });
+});
+
+</script>
+
+</body>
+</html>

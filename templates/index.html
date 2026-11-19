@@ -1,573 +1,133 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>CyberGuard | Security Dashboard</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d18">
+  <title>CyberGuard 2.0 | Security Operations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
-
-    <div class="background"></div>
-
-    <div class="container">
-
-        <!-- HEADER -->
-        <header>
-
-            <div class="logo">
-                🛡️
-            </div>
-
-            <h1>Cyber<span>Guard</span></h1>
-
-            <p>
-                Real-Time Website Security Health Monitor
-            </p>
-
-        </header>
-
-
-        <!-- SCANNER -->
-        <section class="scanner-card">
-
-            <div class="scanner-title">
-                <div>
-                    <h2>🔍 Security Scanner</h2>
-                    <p>Enter a website URL or domain</p>
-                </div>
-
-                <div class="status-dot">
-                    <span></span> SYSTEM ONLINE
-                </div>
-            </div>
-
-
-            <form action="/scan" method="POST" id="scanForm">
-
-                <div class="input-group">
-
-                    <input
-                        type="text"
-                        name="target"
-                        id="target"
-                        placeholder="https://example.com"
-                        required>
-
-                    <button type="submit" id="scanBtn">
-                        <span>🚀</span>
-                        Start Scan
-                    </button>
-
-                </div>
-
-            </form>
-
-            <div class="scan-info">
-                ⚡ Basic automated security assessment
-                <span>•</span>
-                🔐 Authorized targets only
-            </div>
-
-        </section>
-
-
-        {% if result %}
-
-
-<!-- SECURITY SCORE -->
-<section class="score-card">
-
-    <div class="score-circle" id="scoreCircle">
-
-        <div class="score-number" id="scoreNumber">
-            0
-        </div>
-
-        <div class="score-label">
-            / 100
-        </div>
-
-    </div>
-
-
-    <div class="score-content">
-
-        <h2>Security Health Score</h2>
-
-        <p>
-            Basic automated security assessment completed.
-        </p>
-
-        <div class="score-status" id="scoreStatus">
-            Checking...
-        </div>
-
-    </div>
-
-</section>
-
-
-<script>
-
-   const finalScore = Number("{{ result.score }}");
-
-    const scoreNumber =
-        document.getElementById("scoreNumber");
-
-    const scoreCircle =
-        document.getElementById("scoreCircle");
-
-    const scoreStatus =
-        document.getElementById("scoreStatus");
-
-
-    let currentScore = 0;
-
-
-    const animation = setInterval(() => {
-
-        currentScore++;
-
-        scoreNumber.innerText = currentScore;
-
-
-        if (currentScore >= finalScore) {
-
-            clearInterval(animation);
-
-        }
-
-    }, 20);
-
-
-    /* Score status */
-
-    if (finalScore >= 80) {
-
-        scoreStatus.innerHTML =
-            "🟢 Good Security Posture";
-
-    }
-
-    else if (finalScore >= 50) {
-
-        scoreStatus.innerHTML =
-            "🟡 Needs Improvement";
-
-    }
-
-    else {
-
-        scoreStatus.innerHTML =
-            "🔴 Security Warnings Found";
-
-    }
-
-</script>
-
-
-        <!-- TARGET INFO -->
-        <section class="grid">
-
-            <div class="info-card">
-
-                <div class="card-icon">🌐</div>
-
-                <div>
-                    <small>WEBSITE</small>
-
-                    <h3>
-                        {{ result.target }}
-                    </h3>
-                </div>
-
-            </div>
-
-
-            <div class="info-card">
-
-                <div class="card-icon">🔢</div>
-
-                <div>
-                    <small>IP ADDRESS</small>
-
-                    <h3>
-                        {{ result.ip }}
-                    </h3>
-                </div>
-
-            </div>
-
-
-            <div class="info-card">
-
-                <div class="card-icon">🟢</div>
-
-                <div>
-                    <small>STATUS</small>
-
-                    <h3>
-                        {{ result.status }}
-                    </h3>
-                </div>
-
-            </div>
-
-        </section>
-
-<!-- SECURITY CHECKS -->
-<section class="dashboard-card">
-
-    <div class="section-title">
-
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="/">
+        <span class="brand-mark">C</span>
+        <span><strong>cyberguard</strong><small>SECURITY CONSOLE</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#overview"><span>▦</span> Overview</a>
+        <a class="nav-link" href="#scanner"><span>⌕</span> Website scanner</a>
+        <a class="nav-link" href="#results"><span>◈</span> Security checks</a>
+        <a class="nav-link" href="#ports"><span>⌘</span> Port analysis</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="side-status"><i></i><span><b>All systems ready</b><small>Scanner interface online</small></span></div>
+        <div class="sidebar-note">CYBERGUARD <span>VERSION 2.0</span></div>
+      </div>
+    </aside>
+
+    <main class="main-content" id="overview">
+      <header class="topbar">
+        <div class="breadcrumbs">Workspace <span>/</span> <b>Overview</b></div>
+        <div class="topbar-right"><span class="live-pill"><i></i> SYSTEM ONLINE</span><div class="avatar">O</div></div>
+      </header>
+
+      <section class="welcome-row">
         <div>
-            <h2>🛡️ Security Checks</h2>
-            <p>Live results from the website scan</p>
+          <div class="eyebrow"><span class="eyebrow-line"></span> SECURITY OPERATIONS CENTER</div>
+          <h1>See your security <span>clearly.</span></h1>
+          <p class="welcome-copy">A clear view of website health, security headers and exposed network services.</p>
+        </div>
+        <div class="date-chip"><span>◷</span> LIVE MONITORING</div>
+      </section>
+
+      <section class="metric-grid" aria-label="Scanner capabilities">
+        <article class="metric-card"><div class="metric-top"><span>01 / CONNECTION</span><span class="metric-icon cyan">↗</span></div><strong>HTTPS</strong><p>Encrypted connection check</p><div class="metric-foot"><i class="mini-dot cyan-bg"></i> Included in every scan</div></article>
+        <article class="metric-card"><div class="metric-top"><span>02 / CONFIGURATION</span><span class="metric-icon violet">⌘</span></div><strong>Headers</strong><p>Important browser protections</p><div class="metric-foot"><i class="mini-dot violet-bg"></i> 4 security headers checked</div></article>
+        <article class="metric-card"><div class="metric-top"><span>03 / NETWORK</span><span class="metric-icon green">⌁</span></div><strong>TCP ports</strong><p>Common service availability</p><div class="metric-foot"><i class="mini-dot green-bg"></i> 8 common ports checked</div></article>
+        <article class="metric-card"><div class="metric-top"><span>04 / INSIGHT</span><span class="metric-icon amber">◉</span></div><strong>Risk score</strong><p>Quick configuration overview</p><div class="metric-foot"><i class="mini-dot amber-bg"></i> Score out of 100</div></article>
+      </section>
+
+      <section class="scanner-panel panel" id="scanner">
+        <div class="panel-heading">
+          <div class="heading-icon">⌕</div>
+          <div><div class="section-kicker">START A NEW ASSESSMENT</div><h2>Website security scanner</h2><p>Enter a domain or website URL to begin a basic security review.</p></div>
+          <span class="panel-tag"><i></i> READY TO SCAN</span>
+        </div>
+        <form action="{{ url_for('scan') }}" method="POST" id="scanForm" class="scan-form">
+          <label for="target">TARGET WEBSITE</label>
+          <div class="input-row">
+            <span class="input-prefix">https://</span>
+            <input type="text" name="target" id="target" placeholder="example.com" autocomplete="url" required>
+            <button type="submit" id="scanBtn"><span class="btn-icon">⌕</span> Run security scan <span class="btn-arrow">→</span></button>
+          </div>
+          <div class="form-hints"><span>↳ Supports domains and HTTP/HTTPS URLs</span><span>◈ Only scan systems you own or are authorized to test</span></div>
+        </form>
+        {% if error %}<div class="alert-error"><b>Scan could not be completed</b><span>{{ error }}</span></div>{% endif %}
+      </section>
+
+      {% if result %}
+      <section class="results-section" id="results">
+        <div class="results-heading"><div><div class="section-kicker">ASSESSMENT SUMMARY</div><h2>Latest scan results</h2></div><span class="completed-tag"><i></i> SCAN COMPLETED</span></div>
+        <div class="result-overview panel">
+          <div class="score-wrap">
+            <div class="score-ring" style="--score: {{ result.score }};">
+              <div class="score-inner"><strong id="scoreNumber">{{ result.score }}</strong><span>OUT OF 100</span></div>
+            </div>
+            <div class="score-caption">SECURITY SCORE</div>
+          </div>
+          <div class="result-summary">
+            <div class="section-kicker">TARGET ANALYSIS</div>
+            <h3>{{ result.hostname }}</h3>
+            <p class="target-url">{{ result.target }}</p>
+            <div class="summary-pills"><span class="summary-pill"><i class="mini-dot cyan-bg"></i> HTTP {{ result.http_status }}</span><span class="summary-pill"><i class="mini-dot green-bg"></i> {{ result.status }}</span></div>
+            <div class="score-message">{{ result.security_status }}</div>
+            <p class="disclaimer-small">This score reflects the basic checks shown below. It is not a guarantee that a website is secure.</p>
+          </div>
+          <div class="result-meta"><div><small>RESOLVED IP</small><b>{{ result.ip }}</b></div><div><small>RESPONSE TIME</small><b>{{ result.response_time }}{% if result.response_time != "N/A" %} ms{% endif %}</b></div><div><small>HTTPS</small><b>{% if result.https %}Enabled{% else %}Not detected{% endif %}</b></div></div>
         </div>
 
-        <span class="badge">
-            SCAN COMPLETE
-        </span>
-
-    </div>
-
-
-    <div class="checks">
-
-        <!-- HTTPS -->
-        <div class="check">
-
-            <span class="check-icon">
-                {% if result.https %}
-                    ✓
-                {% else %}
-                    !
-                {% endif %}
-            </span>
-
-            <div>
-                <strong>HTTPS</strong>
-                <small>Secure connection</small>
+        <div class="content-grid">
+          <section class="panel detail-panel">
+            <div class="panel-title-row"><div><div class="section-kicker">CONFIGURATION REVIEW</div><h3>Security checks</h3></div><span class="count-tag">04 CHECKS</span></div>
+            <div class="check-list">
+              {% for header, present in result.security_headers.items() %}
+              <div class="check-row"><span class="check-symbol {% if present %}is-good{% else %}is-warning{% endif %}">{% if present %}✓{% else %}!{% endif %}</span><div class="check-copy"><b>{{ header }}</b><small>{% if header == "Content-Security-Policy" %}Helps control permitted content sources{% elif header == "X-Content-Type-Options" %}Helps prevent MIME-type sniffing{% elif header == "X-Frame-Options" %}Helps reduce clickjacking risk{% else %}Helps enforce secure HTTPS connections{% endif %}</small></div><span class="check-state {% if present %}state-good{% else %}state-warning{% endif %}">{% if present %}Present{% else %}Missing{% endif %}</span></div>
+              {% endfor %}
+              <div class="check-row"><span class="check-symbol {% if result.https %}is-good{% else %}is-warning{% endif %}">{% if result.https %}✓{% else %}!{% endif %}</span><div class="check-copy"><b>HTTPS connection</b><small>Website connection encryption</small></div><span class="check-state {% if result.https %}state-good{% else %}state-warning{% endif %}">{% if result.https %}Enabled{% else %}Not detected{% endif %}</span></div>
             </div>
+          </section>
 
-            <b>
-                {% if result.https %}
-                    Enabled
-                {% else %}
-                    Not Secure
-                {% endif %}
-            </b>
-
+          <section class="panel detail-panel" id="ports">
+            <div class="panel-title-row"><div><div class="section-kicker">NETWORK VISIBILITY</div><h3>Port analysis</h3></div><span class="count-tag">TCP</span></div>
+            <p class="panel-description">Common TCP ports checked by the scanner.</p>
+            <div class="port-list">
+              {% for port in result.ports %}
+              <div class="port-row"><span class="port-indicator {% if 'OPEN' in port %}port-open{% else %}port-closed{% endif %}"></span><span>{{ port }}</span><b>{% if 'OPEN' in port %}OPEN{% elif 'CLOSED' in port %}CLOSED{% else %}INFO{% endif %}</b></div>
+              {% endfor %}
+            </div>
+            <p class="port-note">An open port is not automatically a vulnerability. Review services and firewall rules with the system owner.</p>
+          </section>
         </div>
-
-
-        <!-- HTTP STATUS -->
-        <div class="check">
-
-            <span class="check-icon">
-                {% if result.http_status == 200 %}
-                    ✓
-                {% else %}
-                    !
-                {% endif %}
-            </span>
-
-            <div>
-                <strong>HTTP Status</strong>
-                <small>Server response</small>
-            </div>
-
-            <b>
-                {{ result.http_status }}
-            </b>
-
-        </div>
-
-
-        <!-- RESPONSE TIME -->
-        <div class="check">
-
-            <span class="check-icon">
-                ⚡
-            </span>
-
-            <div>
-                <strong>Response Time</strong>
-                <small>Website speed</small>
-            </div>
-
-            <b>
-                {{ result.response_time }} ms
-            </b>
-
-        </div>
-
-
-        <!-- DNS -->
-        <div class="check">
-
-            <span class="check-icon">
-                {% if result.ip != "Not Found" %}
-                    ✓
-                {% else %}
-                    !
-                {% endif %}
-            </span>
-
-            <div>
-                <strong>DNS Resolution</strong>
-                <small>Domain → IP</small>
-            </div>
-
-            <b>
-                {% if result.ip != "Not Found" %}
-                    Active
-                {% else %}
-                    Failed
-                {% endif %}
-            </b>
-
-        </div>
-
-
-        <!-- CSP -->
-        <div class="check">
-
-            <span class="check-icon">
-                {% if result.security_headers.get("Content-Security-Policy") %}
-                    ✓
-                {% else %}
-                    !
-                {% endif %}
-            </span>
-
-            <div>
-                <strong>Content Security Policy</strong>
-                <small>CSP header</small>
-            </div>
-
-            <b>
-                {% if result.security_headers.get("Content-Security-Policy") %}
-                    Present
-                {% else %}
-                    Missing
-                {% endif %}
-            </b>
-
-        </div>
-
-
-        <!-- X CONTENT TYPE -->
-        <div class="check">
-
-            <span class="check-icon">
-                {% if result.security_headers.get("X-Content-Type-Options") %}
-                    ✓
-                {% else %}
-                    !
-                {% endif %}
-            </span>
-
-            <div>
-                <strong>X-Content-Type-Options</strong>
-                <small>MIME protection</small>
-            </div>
-
-            <b>
-                {% if result.security_headers.get("X-Content-Type-Options") %}
-                    Present
-                {% else %}
-                    Missing
-                {% endif %}
-            </b>
-
-        </div>
-
-
-        <!-- X FRAME -->
-        <div class="check">
-
-            <span class="check-icon">
-                {% if result.security_headers.get("X-Frame-Options") %}
-                    ✓
-                {% else %}
-                    !
-                {% endif %}
-            </span>
-
-            <div>
-                <strong>X-Frame-Options</strong>
-                <small>Clickjacking protection</small>
-            </div>
-
-            <b>
-                {% if result.security_headers.get("X-Frame-Options") %}
-                    Present
-                {% else %}
-                    Missing
-                {% endif %}
-            </b>
-
-        </div>
-
-
-        <!-- HSTS -->
-        <div class="check">
-
-            <span class="check-icon">
-                {% if result.security_headers.get("Strict-Transport-Security") %}
-                    ✓
-                {% else %}
-                    !
-                {% endif %}
-            </span>
-
-            <div>
-                <strong>HSTS</strong>
-                <small>HTTPS enforcement</small>
-            </div>
-
-            <b>
-                {% if result.security_headers.get("Strict-Transport-Security") %}
-                    Present
-                {% else %}
-                    Missing
-                {% endif %}
-            </b>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-        <!-- PORT SCANNER -->
-        <section class="dashboard-card">
-
-            <div class="section-title">
-
-                <div>
-                    <h2>🔌 Port Scanner</h2>
-                    <p>Basic TCP port availability check</p>
-                </div>
-
-                <span class="badge">
-                    TCP
-                </span>
-
-            </div>
-
-
-            <div class="ports">
-
-                {% if result.ports %}
-
-                    {% for port in result.ports %}
-
-                    <div class="port">
-
-                        {% if "OPEN" in port %}
-
-                        <span class="port-status open">
-                            ●
-                        </span>
-
-                        {% else %}
-
-                        <span class="port-status closed">
-                            ●
-                        </span>
-
-                        {% endif %}
-
-                        <span>
-                            {{ port }}
-                        </span>
-
-                    </div>
-
-                    {% endfor %}
-
-                {% else %}
-
-                    <p class="empty">
-                        No port information available.
-                    </p>
-
-                {% endif %}
-
-            </div>
-
-        </section>
-
-
-        <!-- WARNING -->
-        <section class="warning-card">
-
-            <div class="warning-icon">
-                ⚠️
-            </div>
-
-            <div>
-
-                <h3>Security Notice</h3>
-
-                <p>
-                    CyberGuard performs basic automated checks.
-                    It is not a full penetration testing tool.
-                </p>
-
-            </div>
-
-        </section>
-
-        {% endif %}
-
-
-        <!-- FOOTER -->
-        <footer>
-
-            <div>
-                🛡️ CyberGuard
-            </div>
-
-            <p>
-                Educational Cybersecurity Project • 2026
-            </p>
-
-        </footer>
-
-    </div>
-
-
-    <!-- SCAN ANIMATION -->
-    <script>
-
-        const form = document.getElementById("scanForm");
-        const button = document.getElementById("scanBtn");
-
-        if (form) {
-
-            form.addEventListener("submit", function () {
-
-                button.innerHTML =
-                    "⏳ Scanning...";
-
-                button.disabled = true;
-
-            });
-
-        }
-
-    </script>
-
+        <div class="notice"><span>ⓘ</span><div><b>Assessment limitation</b><p>CyberGuard performs basic automated checks only. It does not perform penetration testing or confirm exploitable vulnerabilities.</p></div></div>
+      </section>
+      {% else %}
+      <section class="empty-state panel">
+        <div class="empty-art"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><span class="shield-art">⬡</span><i>✓</i></div>
+        <div class="section-kicker">YOUR SECURITY WORKSPACE</div>
+        <h2>Ready when you are.</h2>
+        <p>Run your first scan to see the website's connection status, security headers and common TCP ports in one place.</p>
+        <a href="#scanner" class="text-link">Start with a website <span>→</span></a>
+      </section>
+      {% endif %}
+
+      <footer class="footer"><span>© 2026 CYBERGUARD <b>2.0</b></span><span>BUILT FOR SECURITY AWARENESS <i></i> EDUCATIONAL PROJECT</span></footer>
+    </main>
+  </div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

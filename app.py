@@ -337,6 +337,19 @@ def report(scan_id):
                      download_name=f"cyberguard-professional-report-{scan_id}.pdf")
 
 
+@app.route("/api/url-check", methods=["POST"])
+def url_check():
+    from url_scanner import check_url
+
+    data = request.get_json(silent=True) or request.form
+    submitted_url = (data.get("url") or "").strip()
+    try:
+        result = check_url(submitted_url)
+        return jsonify(result)
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 400
+
+
 @app.route("/scan", methods=["GET", "POST"])
 def legacy_scan():
     if request.method == "GET":

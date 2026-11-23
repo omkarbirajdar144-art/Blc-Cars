@@ -32,6 +32,12 @@
 <div class="section-head"><div><div class="kicker">01 // INITIATE SCAN</div><h2>Target acquisition</h2><p>Enter a public website you own or are authorized to assess.</p></div><span class="ready-tag"><i></i> ENGINE READY</span></div>
 <form id="scanForm"><label for="target">TARGET URL / DOMAIN</label><div class="target-row"><span class="prefix">⌁</span><input id="target" name="target" placeholder="https://example.com" required autocomplete="url"><button id="scanBtn" type="submit">INITIATE SCAN <span>↗</span></button></div><div class="input-foot"><span>↳ HTTP / HTTPS SUPPORTED</span><span>AUTHORIZED TARGETS ONLY</span></div></form>
 </section>
+
+<section class="url-check-panel panel" id="url-check">
+<div class="section-head"><div><div class="kicker">01B // LINK INTELLIGENCE</div><h2>URL safety check</h2><p>Check a YouTube, Instagram or other public link for common suspicious URL patterns.</p></div><span class="ready-tag"><i></i> OFFLINE CHECK</span></div>
+<form id="urlCheckForm"><label for="urlToCheck">PASTE A LINK</label><div class="target-row"><span class="prefix">↗</span><input id="urlToCheck" name="url" placeholder="https://www.youtube.com/watch?v=..." required autocomplete="url"><button id="urlCheckBtn" type="submit">CHECK LINK <span>↗</span></button></div></form>
+<div id="urlCheckResult" class="url-check-result" hidden aria-live="polite"></div>
+</section>
 <section class="activity-grid" id="activity">
 <div class="panel radar-panel"><div class="panel-title"><div><span class="kicker">02 // VISUAL TELEMETRY</span><h3>Threat radar</h3></div><span class="live-mini"><i></i> <span id="radarState">STANDBY</span></span></div>
 <div class="radar" id="radar"><div class="radar-grid"></div><div class="radar-sweep"></div><div class="radar-cross cross-h"></div><div class="radar-cross cross-v"></div><span class="radar-center">⌬</span><i class="blip blip-a"></i><i class="blip blip-b"></i><i class="blip blip-c"></i><span class="radar-label label-top">N / 000</span><span class="radar-label label-bottom">SCANNING FIELD</span></div>

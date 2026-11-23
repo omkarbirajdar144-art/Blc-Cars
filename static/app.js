@@ -221,7 +221,7 @@
       const heading = document.createElement("div");
       heading.className = "url-verdict";
       const score = document.createElement("b");
-      score.textContent = data.risk_score + "/100";
+      score.textContent = "SAFETY " + data.safety_score + "/100";
       const verdict = document.createElement("strong");
       verdict.textContent = data.verdict;
       heading.append(score, verdict);

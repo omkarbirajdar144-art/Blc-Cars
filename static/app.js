@@ -196,6 +196,64 @@
     }
   });
 
+
+  const urlCheckForm = document.getElementById("urlCheckForm");
+  urlCheckForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const url = document.getElementById("urlToCheck").value.trim();
+    const checkButton = document.getElementById("urlCheckBtn");
+    const output = document.getElementById("urlCheckResult");
+    checkButton.disabled = true;
+    checkButton.textContent = "CHECKING…";
+    output.hidden = false;
+    output.replaceChildren();
+    const loading = document.createElement("p");
+    loading.textContent = "Analyzing URL structure…";
+    output.appendChild(loading);
+    try {
+      const response = await fetch("/api/url-check", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({url})
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "URL check failed");
+      const heading = document.createElement("div");
+      heading.className = "url-verdict";
+      const score = document.createElement("b");
+      score.textContent = data.risk_score + "/100";
+      const verdict = document.createElement("strong");
+      verdict.textContent = data.verdict;
+      heading.append(score, verdict);
+      const host = document.createElement("p");
+      host.textContent = "Hostname: " + data.hostname;
+      const list = document.createElement("div");
+      list.className = "url-check-list";
+      data.checks.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "url-check-row";
+        const name = document.createElement("b");
+        name.textContent = item.name;
+        const state = document.createElement("span");
+        state.textContent = item.status;
+        state.className = "url-state " + item.status.toLowerCase();
+        const detail = document.createElement("small");
+        detail.textContent = item.detail;
+        row.append(name, state, detail);
+        list.appendChild(row);
+      });
+      const note = document.createElement("p");
+      note.className = "url-disclaimer";
+      note.textContent = data.disclaimer;
+      output.replaceChildren(heading, host, list, note);
+    } catch (error) {
+      output.textContent = error.message;
+    } finally {
+      checkButton.disabled = false;
+      checkButton.innerHTML = 'CHECK LINK <span>↗</span>';
+    }
+  });
+
   document.getElementById("refreshHistory").addEventListener("click", loadHistory);
   loadHistory();
 })();

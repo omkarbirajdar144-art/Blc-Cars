@@ -93,7 +93,7 @@ def check_url(raw_url):
         "input": value,
         "hostname": host,
         "scheme": parsed.scheme.lower(),
-        "risk_score": score,
+        "safety_score": score,
         "verdict": verdict,
         "checks": checks,
         "disclaimer": "This is an offline heuristic check, not a live reputation lookup. It does not open the link, follow redirects, inspect page content, or guarantee safety."

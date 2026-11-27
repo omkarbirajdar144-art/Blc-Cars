@@ -10,6 +10,40 @@ def _is_public_ip(value):
     return address.is_global
 
 
+
+def build_fix_suggestions(https, security_headers):
+    """Return practical suggestions based only on checks actually performed."""
+    suggestions = []
+    if not https:
+        suggestions.append({
+            "issue": "HTTPS was not confirmed",
+            "risk": "Traffic may not be protected by HTTPS.",
+            "fix": "Configure a valid TLS certificate and redirect HTTP traffic to HTTPS."
+        })
+
+    header_fixes = {
+        "Content-Security-Policy": "Create a Content-Security-Policy suited to the site's scripts, styles, images and other resources.",
+        "X-Content-Type-Options": "Add the response header X-Content-Type-Options: nosniff.",
+        "X-Frame-Options": "Set X-Frame-Options to DENY or SAMEORIGIN, or use frame-ancestors in Content-Security-Policy.",
+        "Strict-Transport-Security": "After confirming HTTPS works across the site, configure a suitable Strict-Transport-Security policy."
+    }
+    for header, present in (security_headers or {}).items():
+        if not present and header in header_fixes:
+            suggestions.append({
+                "issue": f"Missing {header}",
+                "risk": "A recommended browser security control was not detected in the HTTP response.",
+                "fix": header_fixes[header]
+            })
+
+    if not suggestions:
+        suggestions.append({
+            "issue": "No issue found in the checks performed",
+            "risk": "This limited scan cannot guarantee that the website is secure.",
+            "fix": "Keep software updated and perform regular authorized security reviews."
+        })
+    return suggestions
+
+
 def scan_target(target, progress_callback=None):
     def emit(message, percent):
         if progress_callback:
@@ -61,6 +95,7 @@ def scan_target(target, progress_callback=None):
             "status": "Website reachable", "http_status": response.status_code,
             "response_time": response_time, "https": https,
             "security_headers": security_headers, "score": score,
+            "recommendations": build_fix_suggestions(https, security_headers),
             "security_status": status_text,
             "redirect_detected": 300 <= response.status_code < 400
         }
@@ -70,5 +105,6 @@ def scan_target(target, progress_callback=None):
             "target": original, "hostname": "Not available", "ip": "Not available",
             "status": "Scan could not be completed", "http_status": "N/A",
             "response_time": "N/A", "https": False, "security_headers": {},
-            "score": 0, "security_status": str(exc)[:180]
+            "score": 0, "security_status": str(exc)[:180],
+            "recommendations": [{"issue": "Scan not completed", "risk": "No reliable security findings are available.", "fix": "Check the URL and network connection, then run the scan again."}]
         }

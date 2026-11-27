@@ -56,3 +56,49 @@ body[data-theme="light"] .stamp-ring{border-color:#8bb6c5}
 body[data-theme="light"] .stamp-ring:before{border-color:#9bbbc9}
 @media(max-width:740px){body[data-theme="light"] .sidebar{background:#fff}}
 @media(prefers-reduced-motion:reduce){.theme-toggle{transition:none}}
+
+
+/* Fix Suggestions: readable typography and spacing */
+#recommendationPanel{
+  margin-top:18px!important;
+  padding:22px 24px!important;
+}
+#recommendationPanel .panel-title{margin-bottom:12px}
+#recommendationPanel .kicker{font-size:11px;letter-spacing:1.4px}
+#recommendationPanel h3{font-size:21px;line-height:1.35;margin:7px 0 4px}
+#recommendationPanel .check-row{
+  gap:14px;
+  padding:17px 4px;
+  align-items:flex-start;
+}
+#recommendationPanel .check-mark{
+  flex:0 0 26px;
+  width:26px;height:26px;
+  font-size:14px;
+  margin-top:1px;
+}
+#recommendationPanel .check-name b{
+  font-size:15px;
+  line-height:1.5;
+  font-weight:700;
+}
+#recommendationPanel .check-name small{
+  font-size:13px;
+  line-height:1.65;
+  margin-top:5px;
+  color:#9aabc0;
+}
+#recommendationPanel .history-note{
+  font-size:12px;
+  line-height:1.65;
+  margin-top:16px;
+}
+body[data-theme="light"] #recommendationPanel .check-name small{color:#52657d}
+body[data-theme="light"] #recommendationPanel .history-note{color:#52657d}
+@media(max-width:740px){
+  #recommendationPanel{padding:17px!important}
+  #recommendationPanel h3{font-size:19px}
+  #recommendationPanel .check-name b{font-size:14px}
+  #recommendationPanel .check-name small{font-size:12px;line-height:1.6}
+  #recommendationPanel .history-note{font-size:11px}
+}

@@ -254,6 +254,46 @@
     }
   });
 
+
+  // Theme preference: explicit user choice wins; otherwise follow the OS setting.
+  const themeToggle = document.getElementById("themeToggle");
+  const themeIcon = document.getElementById("themeIcon");
+  const themeLabel = document.getElementById("themeLabel");
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  const systemTheme = window.matchMedia("(prefers-color-scheme: light)");
+  const savedTheme = (() => {
+    try { return localStorage.getItem("cyberguard-theme"); } catch (_) { return null; }
+  })();
+  let manualTheme = savedTheme === "light" || savedTheme === "dark";
+
+  function applyTheme(theme) {
+    document.body.dataset.theme = theme;
+    const light = theme === "light";
+    themeIcon.textContent = light ? "☾" : "☀";
+    themeLabel.textContent = light ? "DARK" : "LIGHT";
+    themeToggle.setAttribute("aria-label", light ? "Switch to dark theme" : "Switch to light theme");
+    themeToggle.title = light ? "Switch to dark theme" : "Switch to light theme";
+    if (themeMeta) themeMeta.setAttribute("content", light ? "#f3f6fb" : "#070b14");
+  }
+
+  applyTheme(manualTheme ? savedTheme : (systemTheme.matches ? "light" : "dark"));
+
+  themeToggle.addEventListener("click", () => {
+    const nextTheme = document.body.dataset.theme === "dark" ? "light" : "dark";
+    manualTheme = true;
+    try { localStorage.setItem("cyberguard-theme", nextTheme); } catch (_) {}
+    applyTheme(nextTheme);
+  });
+
+  const handleSystemThemeChange = event => {
+    if (!manualTheme) applyTheme(event.matches ? "light" : "dark");
+  };
+  if (typeof systemTheme.addEventListener === "function") {
+    systemTheme.addEventListener("change", handleSystemThemeChange);
+  } else if (typeof systemTheme.addListener === "function") {
+    systemTheme.addListener(handleSystemThemeChange);
+  }
+
   document.getElementById("refreshHistory").addEventListener("click", loadHistory);
   loadHistory();
 })();

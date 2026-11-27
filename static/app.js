@@ -125,6 +125,66 @@
       row.append(dot, label, state);
       ports.appendChild(row);
     });
+    // Render remediation guidance derived from the checks actually performed.
+    let recommendationPanel = document.getElementById("recommendationPanel");
+    if (!recommendationPanel) {
+      recommendationPanel = document.createElement("section");
+      recommendationPanel.id = "recommendationPanel";
+      recommendationPanel.className = "panel detail-card";
+      recommendationPanel.style.marginTop = "13px";
+      recommendationPanel.style.padding = "17px";
+      document.getElementById("resultContent").appendChild(recommendationPanel);
+    }
+    recommendationPanel.replaceChildren();
+    const recommendationTitle = document.createElement("div");
+    recommendationTitle.className = "panel-title";
+    const recommendationHeading = document.createElement("div");
+    const recommendationKicker = document.createElement("span");
+    recommendationKicker.className = "kicker";
+    recommendationKicker.textContent = "REMEDIATION GUIDANCE";
+    const recommendationH3 = document.createElement("h3");
+    recommendationH3.textContent = "Fix suggestions";
+    recommendationHeading.append(recommendationKicker, recommendationH3);
+    recommendationTitle.appendChild(recommendationHeading);
+    recommendationPanel.appendChild(recommendationTitle);
+
+    const suggestions = Array.isArray(result.recommendations) ? [...result.recommendations] : [];
+    (result.ports || []).forEach(portResult => {
+      if (String(portResult).includes("OPEN")) {
+        suggestions.push({
+          issue: String(portResult) + " detected",
+          risk: "An open port may expose a network service; an open port is not automatically a vulnerability.",
+          fix: "Confirm the service is required, restrict access with firewall rules, and keep the service patched."
+        });
+      }
+    });
+    suggestions.forEach(item => {
+      const row = document.createElement("div");
+      row.className = "check-row";
+      row.style.alignItems = "flex-start";
+      row.style.padding = "12px 0";
+      const mark = document.createElement("span");
+      mark.className = "check-mark" + (item.issue && item.issue.startsWith("No issue") ? "" : " missing");
+      mark.textContent = item.issue && item.issue.startsWith("No issue") ? "✓" : "!";
+      const content = document.createElement("span");
+      content.className = "check-name";
+      const title = document.createElement("b");
+      title.textContent = item.issue || "Recommendation";
+      const risk = document.createElement("small");
+      risk.textContent = "Why it matters: " + (item.risk || "Review this configuration.");
+      const fix = document.createElement("small");
+      fix.textContent = "Suggested action: " + (item.fix || "Review the server configuration.");
+      fix.style.display = "block";
+      fix.style.marginTop = "5px";
+      content.append(title, risk, fix);
+      row.append(mark, content);
+      recommendationPanel.appendChild(row);
+    });
+    const scopeNote = document.createElement("p");
+    scopeNote.className = "history-note";
+    scopeNote.textContent = "Suggestions are based only on the checks completed by CyberGuard. Review changes with the website administrator before applying them.";
+    recommendationPanel.appendChild(scopeNote);
+
     pdfButton.href = "/report/" + encodeURIComponent(result.scan_id);
     pdfButton.classList.remove("disabled");
     pdfButton.setAttribute("aria-disabled", "false");
